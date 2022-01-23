@@ -13,6 +13,7 @@ public class Driver : MonoBehaviour
     float gasAmount = 0;
 
     float damageTaken = 0;
+    float damageCoefficient = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -32,13 +33,16 @@ public class Driver : MonoBehaviour
         }
         
         steerAmount = -Input.GetAxis("Horizontal") * steerSpeed * Time.deltaTime;
-        moveAmount = Input.GetAxis("Vertical") * moveSpeed * gasSpeed * Time.deltaTime;
+        moveAmount = Input.GetAxis("Vertical") * moveSpeed * gasSpeed * damageCoefficient * Time.deltaTime;
 
         transform.Rotate(0, 0, steerAmount);
         transform.Translate(0, moveAmount, 0);
 
-        if(damageTaken > 10){
-            Destroy(gameObject, 0f);
+        if(damageTaken > 3){
+            damageTaken = 0;
+            damageCoefficient -= 0.2f;
+            Debug.Log("You are damaging the car, so we are slowing you down.");
+
         }
     }
 
